@@ -6,7 +6,7 @@ NetworkManager:
   service:
     - dead
     - enable: False
-    
+
 ## Suppression de la passerelle par défaut
 ip route del default:
   cmd:
@@ -21,14 +21,23 @@ eth1:
     - ipaddr: 172.16.2.131
     - netmask: 28
 
+eth2:
+  network.managed:
+    - enabled: True
+    - type: eth
+    - proto: none
+    - enable_ipv4: false
+    - enable_ipv6: true
+    - ipv6proto: static
+    - ipaddr: fc00:1234:3::2
+    - netmask: 64
+
+
 ## Configuration de la route vers LAN2 via VM2
-routes:
-  network.routes:
-    - name: eth1
-    - routes:
-      - name: LAN2
-        ipaddr: 172.16.2.160/28
-        gateway: 172.16.2.132
-
-
-
+# routes:
+#   network.routes:
+#     - name: eth1
+#     - routes:
+#       - name: LAN2
+#         ipaddr: 172.16.2.160/28
+#         gateway: 172.16.2.132
