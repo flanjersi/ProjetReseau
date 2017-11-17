@@ -35,6 +35,15 @@ eth2:
     - ipv6ipaddr: fc00:1234:4::3
     - ipv6netmask: 64
     
+## Configuration de la route vers LAN1 via VM2
+routes:
+  network.routes:
+    - name: eth1
+    - routes:
+      - name: LAN1
+        ipaddr: 172.16.2.128/28
+        gateway: 172.16.2.162
+
 ## But enable ipv4 forwarding
 net.ipv4.ip_forward:
   sysctl:
