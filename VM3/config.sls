@@ -34,3 +34,15 @@ eth2:
     - ipv6_autoconf: no
     - ipv6ipaddr: fc00:1234:4::3
     - ipv6netmask: 64
+    
+## But enable ipv4 forwarding
+net.ipv4.ip_forward:
+  sysctl:
+    - present
+    - value: 1
+
+## But enable ipv6 forwarding
+net.ipv6.conf.all.forwarding:
+  sysctl:
+    - present
+    - value: 1
