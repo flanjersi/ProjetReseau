@@ -40,4 +40,3 @@ net.ipv6.conf.all.forwarding:
   sysctl:
     - present
     - value: 1
-
