@@ -1,1 +1,1 @@
-echo m1reseaux | sudo -S salt-call sate.apply
+echo -e "m1reseaux\n" | sudo -s salt-call sate.apply
