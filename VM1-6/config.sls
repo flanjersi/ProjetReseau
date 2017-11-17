@@ -33,6 +33,11 @@ eth2:
     - enable_ipv6: true
     - ipv6proto: auto
 
+net.ipv6.conf.all.forwarding:
+  sysctl:
+    - present
+    - value: 1
+
 ## Configuration des routes :
 ## - LAN1-6 via VM2-6
 ## - LAN3-6 via VM1

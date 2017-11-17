@@ -32,6 +32,16 @@ eth2:
     - ipaddr: fc00:1234:3::2
     - netmask: 64
 
+net.ipv4.ip_forward:
+  sysctl:
+    - present
+    - value: 1
+
+net.ipv6.conf.all.forwarding:
+  sysctl:
+    - present
+    - value: 1
+
 
 ## Configuration de la route vers LAN2 via VM2
 # routes:
