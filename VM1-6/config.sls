@@ -33,7 +33,7 @@ eth2:
     - enable_ipv6: true
     - ipv6proto: auto
 
-net.ipv6.ip_forward:
+net.ipv6.conf.all.forwarding:
   sysctl:
     - present
     - value: 1
