@@ -43,15 +43,14 @@ routes:
       - name: LAN1
         ipaddr: 172.16.2.128/28
         gateway: 172.16.2.162
-
-## But enable ipv4 forwarding
-net.ipv4.ip_forward:
-  sysctl:
-    - present
-    - value: 1
-
-## But enable ipv6 forwarding
-net.ipv6.conf.all.forwarding:
-  sysctl:
-    - present
-    - value: 1
+    - name: eth2
+    - routes:
+      - name: LAN1-6
+        ipaddr: fc00:1234:1::/64
+        gateway: fc00:1234:4::36
+      - name: LAN2-6
+        ipaddr: fc00:1234:2::/64
+        gateway: fc00:1234:4::36
+      - name: LAN3-6
+        ipaddr: fc00:1234:3::/64
+        gateway: fc00:1234:4::36

@@ -44,3 +44,19 @@ net.ipv6.conf.all.forwarding:
   sysctl:
     - present
     - value: 1
+    
+    
+## Configuration des routes :
+## - LAN1-6 via VM2-6
+routes:
+  network.routes:
+    - name: eth1
+    - routes:
+      - name: LAN3-6
+        ipaddr: fc00:1234:3::/64
+        gateway: fc00:1234:1::16
+    - name: eth2
+    - routes:
+      - name: LAN4-6
+        ipaddr: fc00:1234:4::/64
+        gateway: fc00:1234:2::36

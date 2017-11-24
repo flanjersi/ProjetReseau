@@ -29,18 +29,8 @@ eth2:
     - enable_ipv4: false
     - enable_ipv6: true
     - ipv6proto: static
-    - ipaddr: fc00:1234:3::2
+    - ipaddr: fc00:1234:3::1
     - netmask: 64
-
-net.ipv4.ip_forward:
-  sysctl:
-    - present
-    - value: 1
-
-net.ipv6.conf.all.forwarding:
-  sysctl:
-    - present
-    - value: 1
 
 
 ## Configuration de la route vers LAN2 via VM2
@@ -51,3 +41,14 @@ routes:
        - name: LAN2
          ipaddr: 172.16.2.160/28
          gateway: 172.16.2.132
+     - name: eth2
+     - routes:
+       - name: LAN1-6
+         ipaddr: fc00:1234:1::/64
+         gateway: fc00:1234:3::16
+       - name: LAN2-6
+         ipaddr: fc00:1234:2::/64
+         gateway: fc00:1234:3::16
+       - name: LAN4-6
+         ipaddr: fc00:1234:4::/64
+         gateway: fc00:1234:3::16
