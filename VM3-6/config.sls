@@ -6,11 +6,6 @@ NetworkManager:
   service:
     - dead
     - enable: False
-    
-## Suppression de la passerelle par défaut
-ip route del default:
-  cmd:
-    - run
 
 ##Configuration de VM3
 
@@ -51,3 +46,25 @@ routes:
       - name: LAN3-6
         ipaddr: fc00:1234:3::/64
         gateway: fc00:1234:2::26
+        
+## Installation de inetutils-inetd
+inetutils-inetd:
+  pkg:
+    - installed
+  service:
+    - running
+    - enable: True
+
+## Suppression de la passerelle par défaut
+ip route del default:
+  cmd:
+    - run
+
+## Ajout dans la BDD de inetd
+update-inetd --add "echo stream tcp6 nowait nobody internal":
+  cmd:
+    - run
+
+service inetutils-inetd restart:
+  cmd:
+    - run
