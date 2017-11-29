@@ -31,8 +31,7 @@ int main (int argc, char** argv){
 
   printf("Configuration finit, scrutation de l'entrée standard\n");
   write_in_fd(fd_tun, 1);
-  printf("appuyez sur une touche pour quitter : ");
-  scanf("%d", &t);
+
 
   return 0;
 }
