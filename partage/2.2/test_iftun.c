@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include "iftun.h"
 
 int main (int argc, char** argv){
@@ -8,7 +9,6 @@ int main (int argc, char** argv){
     printf("Usage: ./test_iftun name_tun\n");
     return 1;
   }
-  int t;
 
   int fd_tun = tun_alloc(argv[1]);
   if(fd_tun < 0){
@@ -28,10 +28,11 @@ int main (int argc, char** argv){
   system("chmod +x configure-tun.sh");
   system(cmd);
 
-
   printf("Configuration finit, scrutation de l'entrée standard\n");
-  write_in_fd(fd_tun, 1);
 
+  while(1) {
+    write_in_fd(fd_tun, 1);
+  }
 
   return 0;
 }

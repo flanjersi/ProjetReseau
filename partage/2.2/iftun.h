@@ -9,7 +9,7 @@ int tun_alloc(char *dev);
 /*
  * copie les données reçu depuis src vers dst
  */
-void write_in_fd(int src, int dst);
+int write_in_fd(int src, int dst);
 
 
 #endif

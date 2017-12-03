@@ -7,11 +7,6 @@ NetworkManager:
     - dead
     - enable: False
 
-## Suppression de la passerelle par défaut
-ip route del default:
-  cmd:
-    - run
-
 ## Configuration de VM3
 #LAN2
 eth1:
@@ -34,7 +29,7 @@ eth2:
     - ipv6_autoconf: no
     - ipv6ipaddr: fc00:1234:4::3
     - ipv6netmask: 64
-    
+
 ## Configuration de la route vers LAN1 via VM2
 routes:
   network.routes:
@@ -54,7 +49,7 @@ routes:
       - name: LAN3-6
         ipaddr: fc00:1234:3::/64
         gateway: fc00:1234:4::36
-        
+
 ## Installation de inetutils-inetd
 inetutils-inetd:
   pkg:
@@ -62,6 +57,10 @@ inetutils-inetd:
   service:
     - running
     - enable: True
+
+netcat6:
+  pkg:
+    - installed
 
 ## Suppression de la passerelle par défaut
 ip route del default:
