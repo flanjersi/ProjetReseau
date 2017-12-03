@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include <unistd.h>
 #include "extremite.h"
 #include "iftun.h"
 
@@ -120,8 +120,22 @@ int main (int argc, char **argv){
     return 0;
   }
 
-  printf("%s\n", cfg->nameTun);
+  int fdTun = tun_alloc(cfg->nameTun);
 
+  //TODO Config tun
+
+	int f = fork();
+	if(f < 0){
+		perror("Fork\n");
+		exit(1);
+	}
+	else if(f == 0){
+		sleep(2);
+    ext_out(cfg->outPort, fdTun);
+	}
+	else {
+    ext_in(cfg->inIp, cfg->inPort, fdTun);
+  }
 
   return 1;
 }
