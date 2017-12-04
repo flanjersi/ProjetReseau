@@ -6,7 +6,7 @@ NetworkManager:
   service:
     - dead
     - enable: False
-    
+
 ## Suppression de la passerelle par défaut
 ip route del default:
   cmd:
@@ -44,17 +44,20 @@ net.ipv6.conf.all.forwarding:
   sysctl:
     - present
     - value: 1
-    
-    
+
+
 ## Configuration des routes :
 ## - LAN1-6 via VM2-6
-routes:
+routesETH1:
   network.routes:
     - name: eth1
     - routes:
       - name: LAN3-6
         ipaddr: fc00:1234:3::/64
         gateway: fc00:1234:1::16
+
+routesETH2:
+  network.routes:
     - name: eth2
     - routes:
       - name: LAN4-6
