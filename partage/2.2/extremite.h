@@ -30,4 +30,15 @@ int ext_out (char* port, int fd);
  */
 int ext_in(char* ipServ, char* port, int fdTun);
 
+/**
+ * Etabli une bidirectionnalité TCP / IP avec tunnel
+ * @param ipOut ip du serveur pour la connexion du client
+ * @param portOut Port pour la connexion du client au serveur
+ * @param portIn Port du serveur
+ * @param fdTun Descripteur du fichier du tunnel
+ * @return
+ */
+int makeExtInOut(char *ipOut, char* portOut, char *portIn, int fdTun);
+
+
 #endif
