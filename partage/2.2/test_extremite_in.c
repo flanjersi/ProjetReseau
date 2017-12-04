@@ -30,7 +30,7 @@ int main (int argc, char **argv){
 
   printf("Configuration finit, scrutation de l'entrée standard\n");
 
-	ext_in("fc00:1234:3::1", "123", fdTun);
+	ext_in("172.16.2.131", "123", fdTun);
 
 	return 0;
 }

@@ -48,13 +48,13 @@ int ext_out (char* port, int fd) {
 	struct addrinfo * resol;
 	struct addrinfo indic = {
     AI_PASSIVE,
-    AF_INET6,
+    AF_INET,
     SOCK_STREAM,
     0, 0,
     NULL, NULL, NULL
   };
 
-  struct sockaddr_in6 client;
+  struct sockaddr_in client;
 
   int socketServer, socketClient;
 
@@ -79,7 +79,7 @@ int ext_out (char* port, int fd) {
 
 	printf("Option initialisée\n");
 
-	if (bind(socketServer , resol->ai_addr, sizeof(struct sockaddr_in6)) < 0) {
+	if (bind(socketServer , resol->ai_addr, sizeof(struct sockaddr_in)) < 0) {
 		perror("bind");
 		exit(5);
 	}
@@ -95,36 +95,38 @@ int ext_out (char* port, int fd) {
 	printf("Le serveur écoute ... \n");
 
 	while(1) {
-		len = sizeof(struct sockaddr_in6);
+		len = sizeof(struct sockaddr_in);
 		socketClient = accept(socketServer, (struct sockaddr *) &client, (socklen_t*) &len);
 
-    if(socketClient < 0 ) {
-			perror("accept");
-			exit(7);
-		}
+        if(socketClient < 0 ) {
+            perror("accept");
+            exit(7);
+        }
 
-    char hotec[NI_MAXHOST];
-		char portc[NI_MAXSERV];
+        char hotec[NI_MAXHOST];
+            char portc[NI_MAXSERV];
 
-    err = getnameinfo((struct sockaddr*)&client, len, hotec, NI_MAXHOST, portc, NI_MAXSERV, 0);
+        err = getnameinfo((struct sockaddr*)&client, len, hotec, NI_MAXHOST, portc, NI_MAXSERV, 0);
 
-    if (err < 0) fprintf(stderr,"résolution client (%i): %s\n", socketClient, gai_strerror(err));
-		else printf("Connexion client reussi: fd = %i /// ip = %s /// port = %s\n", socketClient, hotec, portc);
+        if (err < 0) fprintf(stderr,"résolution client (%i): %s\n", socketClient, gai_strerror(err));
+        else printf("Connexion client reussi: fd = %i /// ip = %s /// port = %s\n", socketClient, hotec, portc);
 
-		while(1) {
-		    int err = socket_to_tun(socketClient, fd);
-        if(err == -1) fprintf(stderr, "Erreur redirection client à tunnel\n");
+        while(1) {
+            int err = socket_to_tun(socketClient, fd);
+            if(err == -1) {
+                fprintf(stderr, "Erreur redirection client à tunnel\n");
+                break;
+            }
+        }
     }
-	}
-
 	close(socketServer);
 
-  return 0;
+    return 0;
 }
 
 
 int ext_in(char* ipServ, char* port, int fdTun) {
-	char ip[INET6_ADDRSTRLEN];
+	char ip[INET_ADDRSTRLEN];
 
   struct addrinfo *resol;
   int soc;
@@ -134,7 +136,7 @@ int ext_in(char* ipServ, char* port, int fdTun) {
 		exit(2);
 	}
 
-	inet_ntop(resol->ai_family, resol, ip, INET6_ADDRSTRLEN);
+	inet_ntop(resol->ai_family, resol, ip, INET_ADDRSTRLEN);
 
 	soc = socket(resol->ai_family, resol->ai_socktype, resol->ai_protocol);
 
@@ -147,7 +149,7 @@ int ext_in(char* ipServ, char* port, int fdTun) {
 
 	printf("Tentative de connexion à %s /// ip = %s sur le port %s \n", ipServ, ip, port);
 
-  int c = connect(soc, resol->ai_addr, sizeof(struct sockaddr_in6));
+  int c = connect(soc, resol->ai_addr, sizeof(struct sockaddr_in));
 	if (c < 0) {
 		perror("connection");
 		exit(4);
@@ -166,5 +168,20 @@ int ext_in(char* ipServ, char* port, int fdTun) {
 	close(soc);
 
 	return 0;
+}
 
+int makeExtInOut(char *ipOut, char* portOut, char *portIn, int fdTun) {
+    int f = fork();
+	
+    if(f < 0){
+	  perror("Fork\n");
+	  return -1;
+	}
+	else if(f == 0){
+	  sleep(5);
+      ext_in(ipOut, portOut, fdTun);
+    }
+	else {
+      ext_out(portIn, fdTun);
+    }
 }

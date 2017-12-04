@@ -10,11 +10,12 @@ int main (int argc, char** argv){
     return 1;
   }
 
-  int fd_tun = tun_alloc(argv[1]);
+  int fd_tun;
+
+  fd_tun = tun_alloc(argv[1]);
   if(fd_tun < 0){
     printf("erreur tun_alloc \n");
     return 1;
-
   }
   char cmd[128];
 

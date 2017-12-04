@@ -25,8 +25,8 @@ Entry readEntry(char* string){
 
   char tmp[512];
   int cpt = 0;
-
-  for(int i = 0 ; string[i] != '\0' && string[i] != '\n' && string[i] != '\t'; i++){
+  int i;
+  for( i = 0 ; string[i] != '\0' && string[i] != '\n' && string[i] != '\t'; i++){
     if(string[i] == ' ') continue;
 
     if(string[i] == '='){
@@ -106,6 +106,14 @@ CfgTun* readCfgFile(char *fileName){
   return cfgTun;
 }
 
+void printCfg(CfgTun *cfg){
+  printf("name : %s\n", cfg->nameTun);
+  printf("OUT IP : %s\n", cfg->outIp);
+  printf("OUT PORT : %s\n", cfg->outPort);
+  printf("OPTIONS : %s\n", cfg->options);
+  printf("IN IP : %s\n", cfg->inIp);
+  printf("IN PORT : %s\n", cfg->inPort);
+}
 
 int main (int argc, char **argv){
 
@@ -119,23 +127,26 @@ int main (int argc, char **argv){
   if(cfg == NULL){
     return 0;
   }
-
+  
+  printCfg(cfg);
+  
   int fdTun = tun_alloc(cfg->nameTun);
-
-  //TODO Config tun
-
-	int f = fork();
-	if(f < 0){
-		perror("Fork\n");
-		exit(1);
-	}
-	else if(f == 0){
-		sleep(2);
-    ext_out(cfg->outPort, fdTun);
-	}
-	else {
-    ext_in(cfg->inIp, cfg->inPort, fdTun);
+  if(fdTun == -1) {
+      fprintf(stderr, "ERREUR TUN ALLOC\n");
+      return 1;
   }
+  
+  char cmd[256];
+  sprintf(cmd, "./configure-tun.sh %s %s %s", cfg->nameTun, cfg->inIp, cfg->options);
+
+  printf("Configuration en cours\n");
+  system("chmod +x configure-tun.sh");
+  system(cmd);
+
+  printf("Configuration finit, scrutation de l'entrée standard\n");
+  printf("FD TUN %d\n", fdTun);
+
+  makeExtInOut(cfg->outIp, cfg->outPort, cfg->inPort, fdTun);
 
   return 1;
 }

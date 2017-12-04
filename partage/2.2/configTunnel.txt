@@ -1,9 +1,0 @@
-# interface tun
-tun= tun0
-# adresse locale
-inip= tete
-inport= tete
-options= tete
-# adresse distante
-outip= tete
-outport= tete

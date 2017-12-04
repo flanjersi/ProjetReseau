@@ -21,7 +21,7 @@ int main (int argc, char **argv){
 
 	strcpy(cmd, "./configure-tun.sh");
   strcat(cmd, " ");
-  strcat(cmd, argv[1]);
+  strcat(cmd, idTun);
 
 
   printf("Configuration en cours\n");
@@ -29,7 +29,7 @@ int main (int argc, char **argv){
   system(cmd);
 
   printf("Configuration finit, scrutation de l'entrée standard\n");
-
+    printf("FD TUN %d\n", fdTun);
 	ext_out("123", fdTun);
 
 	return 0;
