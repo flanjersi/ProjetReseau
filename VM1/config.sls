@@ -34,13 +34,16 @@ eth2:
 
 
 ## Configuration de la route vers LAN2 via VM2
-routes:
+routesETH1:
    network.routes:
      - name: eth1
      - routes:
        - name: LAN2
          ipaddr: 172.16.2.160/28
          gateway: 172.16.2.132
+
+routesETH2:
+   network.routes:
      - name: eth2
      - routes:
        - name: LAN1-6

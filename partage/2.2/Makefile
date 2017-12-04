@@ -31,3 +31,6 @@ clean:
 	- rm *.o
 	- rm test_iftun
 	- rm test_extremite
+	- rm test_extremite_in
+	- rm test_extremite_out
+	- rm tunnel64d
