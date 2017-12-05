@@ -15,8 +15,8 @@ char* taillentete_in(char* aFragmenter);
  *
  * @param aReassembler donnée formaté
  */
-short taillentete_out(char* aReassembler);
+unsigned short taillentete_out(char* aReassembler);
 
-short tailleauto(char *paquetIpV4);
+unsigned short tailleauto(char *paquetIpV4);
 
 #endif

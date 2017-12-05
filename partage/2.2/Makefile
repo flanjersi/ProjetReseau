@@ -1,7 +1,7 @@
 CC = gcc
 CCFLAGS = -w -Wall -g
 
-OBJ = iftun.o extremite.o
+OBJ = iftun.o extremite.o traitement.o
 
 all : tunnel64d test_iftun test_extremite test_extremite_in test_extremite_out
 
@@ -26,6 +26,10 @@ iftun.o : iftun.c
 
 extremite.o : extremite.c
 		$(CC) $(CCFLAGS) -c extremite.c
+
+traitement.o : traitement.c
+		$(CC) $(CCFLAGS) -c traitement.c
+
 
 clean:
 	- rm *.o

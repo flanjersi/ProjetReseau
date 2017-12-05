@@ -14,11 +14,11 @@
 #include "traitement.h"
 
 char* taillentete_in(char* aFragmenter){
+  // remplacer short par unint16_t ?
   unsigned short taille = strlen(aFragmenter);
   char *tableau = (char*) malloc((taille+2));
 
-  tableau[0] = taille & 0xff;
-  tableau[1] = (taille >> 8) & 0xff;
+  ((unsigned short*) tableau)[0] = taille;
 
   for (int i = 2 ; i < taille +2 ; i++){
     tableau[i] = aFragmenter[i-2];
@@ -27,15 +27,15 @@ char* taillentete_in(char* aFragmenter){
   return tableau;
 }
 
-short taillentete_out(char* aReassembler){
+unsigned short taillentete_out(char* aReassembler){
   unsigned short taille = 0;
 
-  taille = ((short*)aReassembler)[0];
+  taille = ((unsigned short*)aReassembler)[0];
   return taille;//28 OCTETS
 }
 
-short tailleauto(char *paquetIpV4) {
+unsigned short tailleauto(char *paquetIpV4) {
   //TODO
 
-  return 0;
+  return 0x00;
 }

@@ -98,26 +98,27 @@ int ext_out (char* port, int fd) {
 		len = sizeof(struct sockaddr_in);
 		socketClient = accept(socketServer, (struct sockaddr *) &client, (socklen_t*) &len);
 
-        if(socketClient < 0 ) {
-            perror("accept");
-            exit(7);
+    if(socketClient < 0 ) {
+        perror("accept");
+        exit(7);
+    }
+
+    char hotec[NI_MAXHOST];
+        char portc[NI_MAXSERV];
+
+    err = getnameinfo((struct sockaddr*)&client, len, hotec, NI_MAXHOST, portc, NI_MAXSERV, 0);
+
+    if (err < 0) fprintf(stderr,"résolution client (%i): %s\n", socketClient, gai_strerror(err));
+    else printf("Connexion client reussi: fd = %i /// ip = %s /// port = %s\n", socketClient, hotec, portc);
+
+    while(1) {
+        int err = socket_to_tun(socketClient, fd);
+
+        if(err == -1) {
+          fprintf(stderr, "Erreur redirection client à tunnel\n");
+          break;
         }
-
-        char hotec[NI_MAXHOST];
-            char portc[NI_MAXSERV];
-
-        err = getnameinfo((struct sockaddr*)&client, len, hotec, NI_MAXHOST, portc, NI_MAXSERV, 0);
-
-        if (err < 0) fprintf(stderr,"résolution client (%i): %s\n", socketClient, gai_strerror(err));
-        else printf("Connexion client reussi: fd = %i /// ip = %s /// port = %s\n", socketClient, hotec, portc);
-
-        while(1) {
-            int err = socket_to_tun(socketClient, fd);
-            if(err == -1) {
-                fprintf(stderr, "Erreur redirection client à tunnel\n");
-                break;
-            }
-        }
+    }
     }
 	close(socketServer);
 
@@ -179,9 +180,11 @@ int makeExtInOut(char *ipOut, char* portOut, char *portIn, int fdTun) {
 	}
 	else if(f == 0){
 	  sleep(5);
-      ext_in(ipOut, portOut, fdTun);
-    }
+    ext_in(ipOut, portOut, fdTun);
+  }
 	else {
-      ext_out(portIn, fdTun);
-    }
+    ext_out(portIn, fdTun);
+  }
+
+  return 1;
 }
