@@ -7,6 +7,15 @@ NetworkManager:
     - dead
     - enable: False
 
+## installation de netcat6
+netcat6:
+  pkg:
+    - installed
+## installation de iperf
+iperf3:
+  pkg:
+    - installed
+
 ## Suppression de la passerelle par défaut
 ip route del default:
   cmd:

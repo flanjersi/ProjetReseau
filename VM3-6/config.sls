@@ -46,6 +46,10 @@ routes:
       - name: LAN3-6
         ipaddr: fc00:1234:3::/64
         gateway: fc00:1234:2::26
+## Installation de iperf3
+iperf3:
+  pkg:
+    - installed
 
 ## Installation de inetutils-inetd
 inetutils-inetd:
