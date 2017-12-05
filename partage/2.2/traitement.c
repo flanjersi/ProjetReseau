@@ -19,8 +19,8 @@ char* taillentete_in(char* aFragmenter){
   char *tableau = (char*) malloc((taille+2));
 
   ((unsigned short*) tableau)[0] = taille;
-
-  for (int i = 2 ; i < taille +2 ; i++){
+  int i;
+  for (i = 2 ; i < taille +2 ; i++){
     tableau[i] = aFragmenter[i-2];
   }
 

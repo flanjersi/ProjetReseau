@@ -55,3 +55,4 @@ routesETH2:
        - name: LAN4-6
          ipaddr: fc00:1234:4::/64
          gateway: fc00:1234:3::16
+
