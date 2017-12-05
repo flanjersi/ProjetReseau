@@ -9,8 +9,8 @@ NetworkManager:
 
 ##Configuration de VM3
 
-#LAN2-6    
-eth1:            
+#LAN2-6
+eth1:
   network.managed:
     - enabled: True
     - type: eth
@@ -21,7 +21,7 @@ eth1:
     - ipv6_autoconf: no
     - ipv6ipaddr: fc00:1234:2::36
     - ipv6netmask: 64
-    
+
 #LAN4-6
 eth2:
   network.managed:
@@ -46,7 +46,7 @@ routes:
       - name: LAN3-6
         ipaddr: fc00:1234:3::/64
         gateway: fc00:1234:2::26
-        
+
 ## Installation de inetutils-inetd
 inetutils-inetd:
   pkg:
@@ -54,6 +54,12 @@ inetutils-inetd:
   service:
     - running
     - enable: True
+
+## But enable ipv6 forwarding
+net.ipv6.conf.all.forwarding:
+  sysctl:
+    - present
+    - value: 1
 
 ## Suppression de la passerelle par défaut
 ip route del default:

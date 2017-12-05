@@ -172,7 +172,7 @@ int ext_in(char* ipServ, char* port, int fdTun) {
 
 int makeExtInOut(char *ipOut, char* portOut, char *portIn, int fdTun) {
     int f = fork();
-	
+
     if(f < 0){
 	  perror("Fork\n");
 	  return -1;

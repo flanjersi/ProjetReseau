@@ -48,7 +48,9 @@ routes:
       - name: LAN4-6
         ipaddr: fc00:1234:4::/64
         gateway: fc00:1234:1::26
-        
-        
-## sudo ip route add fc00:1234:4::/64 via fc00:1234:1::26 dev eth1
-## sudo ip route add fc00:1234:2::/64 via fc00:1234:1::26 dev eth1
+
+## But enable ipv6 forwarding
+net.ipv6.conf.all.forwarding:
+  sysctl:
+    - present
+    - value: 1
