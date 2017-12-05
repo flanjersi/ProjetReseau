@@ -7,3 +7,5 @@ options= fc00:1234:4::/64
 # adresse distante
 outip= 172.16.2.163
 outport= 7777
+# ancienne ip de la route
+oldIP= fc00:1234:3::16

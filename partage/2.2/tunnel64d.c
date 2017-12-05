@@ -12,6 +12,7 @@ typedef struct CfgTun {
   char *options;
   char *outIp;
   char *outPort;
+  char *oldIpRoute;
 } CfgTun;
 
 typedef struct Entry {
@@ -93,6 +94,10 @@ CfgTun* readCfgFile(char *fileName){
       cfgTun->outPort = (char*) malloc(sizeof(char) * strlen(entry.key));
       strcpy(cfgTun->outPort, entry.value);
     }
+    else if(strcmp(entry.key, "oldIP") == 0){
+      cfgTun->oldIpRoute = (char*) malloc(sizeof(char) * strlen(entry.key));
+      strcpy(cfgTun->oldIpRoute, entry.value);
+    }
     else{
       fprintf(stderr, "Erreur à la ligne %d : clé %s incorrecte\n", cptLine, entry.key);
       return NULL;
@@ -127,17 +132,17 @@ int main (int argc, char **argv){
   if(cfg == NULL){
     return 0;
   }
-  
+
   printCfg(cfg);
-  
+
   int fdTun = tun_alloc(cfg->nameTun);
   if(fdTun == -1) {
       fprintf(stderr, "ERREUR TUN ALLOC\n");
       return 1;
   }
-  
+
   char cmd[256];
-  sprintf(cmd, "./configure-tun.sh %s %s %s", cfg->nameTun, cfg->inIp, cfg->options);
+  sprintf(cmd, "./configure-tun.sh %s %s %s %s", cfg->nameTun, cfg->inIp, cfg->options, cfg->oldIpRoute);
 
   printf("Configuration en cours\n");
   system("chmod +x configure-tun.sh");
