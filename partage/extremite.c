@@ -99,12 +99,12 @@ int ext_out (char* port, int fd) {
 		socketClient = accept(socketServer, (struct sockaddr *) &client, (socklen_t*) &len);
 
     if(socketClient < 0 ) {
-        perror("accept");
-        exit(7);
+			perror("accept");
+			exit(7);
     }
 
     char hotec[NI_MAXHOST];
-        char portc[NI_MAXSERV];
+		char portc[NI_MAXSERV];
 
     err = getnameinfo((struct sockaddr*)&client, len, hotec, NI_MAXHOST, portc, NI_MAXSERV, 0);
 
@@ -112,17 +112,18 @@ int ext_out (char* port, int fd) {
     else printf("Connexion client reussi: fd = %i /// ip = %s /// port = %s\n", socketClient, hotec, portc);
 
     while(1) {
-        int err = socket_to_tun(socketClient, fd);
+			int err = socket_to_tun(socketClient, fd);
 
-        if(err == -1) {
-          fprintf(stderr, "Erreur redirection client à tunnel\n");
-          break;
-        }
+			if(err == -1) {
+				fprintf(stderr, "Erreur redirection client à tunnel\n");
+				break;
+			}
     }
-    }
+  }
+
 	close(socketServer);
 
-    return 0;
+  return 0;
 }
 
 
@@ -151,11 +152,12 @@ int ext_in(char* ipServ, char* port, int fdTun) {
 	printf("Tentative de connexion à %s /// ip = %s sur le port %s \n", ipServ, ip, port);
 
   int c = connect(soc, resol->ai_addr, sizeof(struct sockaddr_in));
-	if (c < 0) {
-		perror("connection");
-		exit(4);
+	while( c < 0) {
+		sleep(2);
+		printf("Tentative de connexion à %s /// ip = %s sur le port %s \n", ipServ, ip, port);
+		c = connect(soc, resol->ai_addr, sizeof(struct sockaddr_in));
 	}
-
+	
 	printf("Connexion réussi\n");
 
 	freeaddrinfo(resol);

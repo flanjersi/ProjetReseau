@@ -1,6 +1,0 @@
-3.2 que doit-il se passer ? 
-
-2) on envoie un paquet IPv6 en le faisant transiter par un réseau IPv4, il y a une encapsulation du paquet IPv6 dans de l'IPv4 des qu'il est transmis sur le réseau IPv4
-
-indication : si le paquet n'est pas lu entièrement lors de l'encapsulation, il y aura un probleme de segmentation des données et il sera impossible de reformer correctement le paquet initial
-

@@ -17,6 +17,13 @@ char* taillentete_in(char* aFragmenter);
  */
 unsigned short taillentete_out(char* aReassembler);
 
+
+/**
+ * Recupère la taille de la donnée
+ *
+ * @param paquetIpV4 paquet ipV4 à analyser
+ * @return taille du paquet ipV6 encapsuler dans l'ipV4
+ */
 unsigned short tailleauto(char *paquetIpV4);
 
 #endif
